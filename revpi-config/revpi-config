@@ -45,14 +45,6 @@ do_gui() {
 	esac
 }
 
-is_cm3() {
-	test $(rpi_type) -eq 10
-}
-
-is_not_cm1() {
-	is_cm3 || is_cm4
-}
-
 rpi_revision_code() {
 	# see https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#new-style-revision-codes
 	code=$(grep Revision /proc/cpuinfo | cut -d' ' -f2)
@@ -66,6 +58,22 @@ rpi_type() {
 	mask=4080
 
 	echo $(((code & mask) >> 4))
+}
+
+is_cm1() {
+	test $(rpi_type) -eq 6
+}
+
+is_not_cm1() {
+	! is_cm1
+}
+
+is_cm3() {
+	test $(rpi_type) -eq 10
+}
+
+is_cm4s() {
+	test $(rpi_type) -eq 21
 }
 
 is_cm4() {
